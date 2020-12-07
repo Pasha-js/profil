@@ -1,6 +1,6 @@
 django 
 django-modeltranslation
-whitenoise
+whitenoi6.2se
 dj-database-url==0.4.1
 gunicorn==19.6.0
-psycopg2==2.6.2
+psycopg2==2.7
