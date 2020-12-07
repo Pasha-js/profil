@@ -1,0 +1,128 @@
+{% load i18n  %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto&display=swap&subset=cyrillic" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Container -->
+   <div class="wrapper">
+       <aside class="sidebar">
+           <img class="my-photo" src="static/img/photo.jpg" alt="my photo" >
+
+            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+                <select name="language">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% get_available_languages as LANGUAGES %}
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    {% for language in languages %}
+                        <option value="{{language.code}}"{% if language.code == LANGUAGE_CODE %}
+                                selected{% endif %}>
+                            {{ language.name_local }} ({{ language.code }})
+                        </option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Go">
+            </form>
+
+           <!--  contacts container -->
+           <div class="contacts-container">
+                <h3 class="contacts-title">{% trans 'Контакти' %}</h3>
+                <div>
+                    <span class="contacts-link-type">C:</span> 
+                    <a class="contacts-link" href="tel:380951138598">+38 098 459 01 15</a>
+                </div>
+                <div>
+                    <span class="contacts-link-type">E:</span> <a class="contacts-link" href="mailto:Pashakhurtenko@gmail.com">Pashakhurtenko@gmail.com</a>
+                </div>
+           </div>
+
+           <!-- Tech Skills Container -->
+           <div class="tech-skills-container">
+               <h3 class="Tech-skills-container-title">{% trans 'Навички' %}</h3>
+
+               <ul>
+                    {% for skill in skills %}
+                   <li class="tech-skills-item">
+                      <span class="tech-skills-text">{{skill.descr}}</span>
+                  </li>
+                   {% endfor %}
+               </ul>
+
+
+           </div>
+
+           <!--Soft Skill Container-->
+           <div class="soft-skill-container">
+               <h3 class="soft-skill-title">{% trans 'Особисті риси' %}</h3>
+           <ul>
+               {% for softskill in softskills %}
+               <li class="soft-skill-item">
+                   <span class="soft-skill-text">{{softskill.descr}}</span>
+                </li>
+               {% endfor %}
+           </ul>
+        </div>
+
+       </aside>
+       
+       <!--About me container-->
+     <div class="about-me-container">
+       <!--About me main info-->
+         {% for user in users %}
+         <div class="info-container">
+      <h2 class="profession">{{user.vacancy}}</h2>
+      <h1 class="name">{{user.name}}</h1>
+
+      <p class="discription">{{user.descr}}</p>
+        {% endfor %}
+     </div>
+    
+     <!--project container-->
+ 
+
+        <!--Work Experience-->
+        <div>
+            <h3 class="about-me-title">{% trans 'Досвід роботи' %}</h3>
+           
+        <!--Company 3-->
+        <div>
+            {% for profession in professions %}
+            <h4 class="profession-tittle">{{profession.title}} <span class="profession-company">{{profession.company_name}}</span></h4>
+            <span class="profession-time">
+                {{profession.start}} - {{profession.end}} <span class="profession-divider">|</span> Україна
+            </span> 
+
+            {% endfor %}
+
+
+            <ul class="profession-duties">
+                {% for info in infos %}<li class="profession-duties-item">{{info.title}}.</li> {% endfor %}
+            </ul>
+        </div>
+            
+
+
+        
+
+            <!--Company 4-->
+            <div>
+                <h3 class="about-me-title">{% trans 'Освіта' %}</h3>
+                <h4 class="about-me-study">Тернопільський національний політехнічний інститут імені Івана Пулюя</h4>
+                <h5 class="my-college">{% trans 'Інженер' %}</h5>
+                    <span class="profession-time">
+                        09.2009 - 05.2014 <span class="profession-divider">|</span> Україна
+                    </span>
+            </div>
+
+        </div>
+
+     </div>
+   </div>
+</body>
+</html>
